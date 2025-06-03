@@ -15,3 +15,5 @@ export { UserInitProvider } from './users/UserInitProvider';
 export { PaginationComponent } from './pagination/PaginationComponent';
 export { PetsGrid } from './pets/PetsGrid';
 export { PetsGridItem } from './pets/PetsGridItem';
+export { PostGrid } from './users/PostGrid';
+export { Logout } from './auth/Logout';
