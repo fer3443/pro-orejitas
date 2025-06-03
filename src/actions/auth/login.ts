@@ -1,3 +1,5 @@
+"use server"
+
 import { LoginValues, loginSchema } from "@/interface";
 import { comparePassword } from "@/lib/hash";
 import { signToken } from "@/lib/auth-token";
