@@ -2,7 +2,7 @@
 
 import { PetPostForm } from "@/components";
 import { useUserPosts } from "@/hooks/useUserPosts";
-import { PetPost, PetPostValues } from "@/interface";
+import { PetPost } from "@/interface";
 import React from "react";
 import { toast } from "sonner";
 
