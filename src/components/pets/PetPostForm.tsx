@@ -34,7 +34,7 @@ export const PetPostForm = ({initialValues, onSubmit, isEditing = false}:PetPost
     if(initialValues){
       form.reset(initialValues);
     }
-  },[initialValues,form])
+  },[initialValues])
 
   return (
      <Form {...form}>
@@ -158,7 +158,7 @@ export const PetPostForm = ({initialValues, onSubmit, isEditing = false}:PetPost
           render={({ field }) => (
             <FormItem className='col-span-full'>
               <FormLabel>Imágenes (URLs)</FormLabel>
-              {field.value.map((url, idx) => (
+              {(Array.isArray(field.value) ? field.value : []).map((url, idx) => (
                 <div key={idx} className="flex gap-2 mb-2">
                   <Input
                     value={url}

@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 
-import { petPostSchema, PetPostValues } from "@/interface";
+import { PetPost, petPostSchema, PetPostValues } from "@/interface";
 import { verifyToken } from "@/lib/auth-token";
 import { getUserToken } from "../user/get-user-token";
 
@@ -11,6 +11,7 @@ interface PetPostResposne {
   success: boolean;
   message: string;
   status: number;
+  post?: PetPost
 }
 
 interface TokenPayload {
@@ -46,7 +47,7 @@ export const createUpdatePetPost = async (
   }
   const { id, image, ...rest } = parsedResult.data;
   try {
-    await prisma.$transaction(async (tx) => {
+    const post = await prisma.$transaction(async (tx) => {
       //si hay id de post, actualizo
       if (id) {
         const updated = await prisma.petPost.update({
@@ -67,7 +68,12 @@ export const createUpdatePetPost = async (
             petPostId: values.id!,
           })),
         });
-        return updated;
+        return {
+          success:true,
+          message:"Post actualizado",
+          status: 200,
+          updated
+        }
       } else {
         //si no creo
         const created = await prisma.petPost.create({
@@ -79,18 +85,19 @@ export const createUpdatePetPost = async (
             },
           },
         });
-
-        return created;
+        
+        return {
+          success:true,
+          message:"Todo listo",
+          status: 200,
+          created
+        };
       }
     });
 
     revalidatePath(`/petpost/${id}`);
 
-    return {
-      success: true,
-      message: "Todo listo!",
-      status: 200,
-    };
+    return post;
   } catch (error) {
     console.log("Error inesperado al crear/actualizar publicación", error);
     return {
