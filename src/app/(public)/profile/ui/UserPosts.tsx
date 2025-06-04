@@ -15,7 +15,7 @@ export const UserPosts = ({page}:UserPostsProps) => {
 
   return (
     <div className="h-full col-span-1 md:col-span-3">
-        <div className="col-span-full text-center mb-5">
+        <div className="text-center mb-5">
           <h3 className="text-xl font-semibold text-gray-900">Mis Posts</h3>
         </div>
         <PostGrid posts={posts} />

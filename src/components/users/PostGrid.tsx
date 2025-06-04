@@ -9,11 +9,12 @@ interface Props {
 }
 
 export const PostGrid = ({posts}:Props) => {
-   if(posts.length === 0){
+   if(!posts.length){
        return (
-         <div className='text-center'>
-           <h2 className='font-semibold text-2xl'>Ups no pudimos cargar a nuestras mascotas...</h2>
-           <h3 className='text-lg'>Pronto lo solucionamos</h3>
+         <div className='h-full text-center flex flex-col justify-center'>
+           <h2 className='font-semibold text-2xl'>No encontramos mascotas...</h2>
+           <h3 className='text-lg'>Prueba agregando una nueva</h3>
+           <Link href='/petpost/new' className='font-semibold'><span>Publicar</span></Link>
          </div>
        )
      }

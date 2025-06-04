@@ -9,8 +9,8 @@ export default async function ProfilePage({searchParams}:Props) {
   const strPage = await searchParams;
   const page = strPage ? parseInt(strPage.page || "1") : 1;
   return (
-    <div className="grid grid-cols-1 md:grid-cols-4 gap-x-2 my-5 md:gap-x-6">
-      <div className="h-full col-span-1 mb-5 md:mb-0">
+    <div className="min-h-screen grid grid-cols-1 md:grid-cols-4 gap-x-2 my-5 md:gap-x-6">
+      <div className="h-full col-span-1 mb-5 md:mb-0 flex flex-col items-center">
         <Title
           title="Mi perfil"
           subtitle={`Fernando Arroyo`}
@@ -37,17 +37,6 @@ export default async function ProfilePage({searchParams}:Props) {
         </div>
       </div>
       <UserPosts page={page}/>
-      {/* <div className="h-full col-span-1 md:col-span-3">
-        <div className="col-span-full text-center mb-5">
-          <h3 className="text-xl font-semibold text-gray-900">Mis Posts</h3>
-        </div>
-        <PostGrid posts={data?.posts as PetPost[]} />
-        {
-          (totalPages as number) > 1 && (
-            <PaginationComponent totalPages={totalPages as number} />
-          )
-        }
-      </div> */}
     </div>
   );
 }

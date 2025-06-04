@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-export default function NamePage() {
+export default function NotFoundPage() {
   return (
     <div>
       <h1>No se encontró la publicación</h1>

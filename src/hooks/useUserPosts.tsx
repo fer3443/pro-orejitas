@@ -14,12 +14,14 @@ export const useUserPosts = ({ page = 1 }: Props) => {
   const posts = useUserPostStore((state) => state.posts);
   const addPost = useUserPostStore((state) => state.addPost);
   const updatePost = useUserPostStore((state) => state.updatePost);
+  const loading = useUserPostStore(state => state.loading);
+  const setLoading = useUserPostStore(state => state.setLoading);
 
   const [pages, setPages] = React.useState<number>();
-  const [loading, setLoading] = React.useState<boolean>(true);
 
   React.useEffect(() => {
     const getUserPosts = async () => {
+      setLoading(true)
       const { data, totalPages } = await getUserPost({ page });
       setPost(data?.posts as PetPost[]);
       setPages(totalPages);
@@ -27,17 +29,27 @@ export const useUserPosts = ({ page = 1 }: Props) => {
     };
 
     getUserPosts();
-  }, [setPost]);
+  }, [page]);
 
   const handleCreateUpdatePost = async (data: PetPostValues) => {
-    const resp = await createUpdatePetPost(data);
-    if (resp.success && resp.post) {
-      if (data.id) {
-        updatePost(resp.post);
-      } else {
-        addPost(resp.post as PetPost);
+    try {
+      setLoading(true)
+      const resp = await createUpdatePetPost(data);
+      if(resp.success && resp.post){
+        data.id ? updatePost(resp.post) : addPost(resp.post)
       }
+    } catch (error) {
+      console.log("Error al actualizar/crear el post",error)
+    }finally{
+      setLoading(false)
     }
+    // if (resp.success && resp.post) {
+    //   if (data.id) {
+    //     updatePost(resp.post);
+    //   } else {
+    //     addPost(resp.post as PetPost);
+    //   }
+    // }
   };
 
   return {
