@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useRouter } from 'next/navigation';
 
-import { Button, Form, FormControl, FormField, FormItem, FormLabel, FormMessage, Input } from '@/components';
+import { Button, Form, FormControl, FormField, FormItem, FormLabel, FormMessage, Input, InputTogglePassword } from '@/components';
 import { loginUser } from '@/actions';
 import { toast } from "sonner";
 import Link from 'next/link';
@@ -39,7 +39,7 @@ export const LoginForm = () => {
   return (
    <>
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 max-w-[350px]">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 max-w-[350px]">
         <FormField
           control={form.control}
           name="email"
@@ -60,19 +60,22 @@ export const LoginForm = () => {
             <FormItem>
               <FormLabel>Contraseña</FormLabel>
               <FormControl>
-                <Input type='password' placeholder="Password123" {...field} />
+              <InputTogglePassword field={field} placeholder='Password123'/>
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
+        <div className='w-full flex flex-col gap-4 text-center'>
+        <Link href='/auth/forgot-password' className='hover:text-blue-500 text-sm'>Olvide mi contraseña</Link>
         <Button
         disabled={form.formState.isSubmitting}
         type="submit">{form.formState.isSubmitting ? "Iniciando sesión..." : "Iniciar sesión"}</Button>
+        </div>
       </form>
     </Form>
-    <div className='mt-4'>
-      <p className='text-sm'>No tenes cuenta todavia?<Link href={"/auth/register"} className='hover:text-blue-500 font-semibold'> Registrate aquí</Link></p>
+    <div className='mt-4 text-sm'>
+      <p>No tenes cuenta todavia?<Link href={"/auth/register"} className='hover:text-blue-500 font-semibold'> Registrate aquí</Link></p>
     </div>
    </>
   )

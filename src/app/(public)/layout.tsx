@@ -1,4 +1,4 @@
-import { Footer, Navbar, UserInitProvider } from "@/components";
+import { Navbar, UserInitProvider } from "@/components";
 
 export default function PetsLayout({
   children,
@@ -10,7 +10,6 @@ export default function PetsLayout({
       <UserInitProvider/>
       <Navbar />
       <div className="max-w-7xl mx-auto">{children}</div>
-      <Footer/>
     </main>
   );
 }

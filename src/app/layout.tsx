@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { geistMono, geistSans } from "@/config/fonts";
-import { Toaster } from "@/components";
+import { Footer, Toaster } from "@/components";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -20,6 +20,7 @@ export default function RootLayout({
       >
         {children}
         <Toaster/>
+        <Footer/>
       </body>
     </html>
   );
