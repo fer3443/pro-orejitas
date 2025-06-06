@@ -11,6 +11,7 @@ export * from './ui/separator';
 export * from './ui/sonner';
 export * from './ui/textarea';
 export * from './ui/title';
+export * from './ui/input-password';
 
 export { Footer } from './footer/Footer'
 export { Navbar } from './navbar/Navbar';
