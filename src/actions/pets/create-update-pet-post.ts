@@ -41,7 +41,7 @@ export const createUpdatePetPost = async (
       status: 400,
     };
   }
-  const { id, image, ...rest } = parsedResult.data;
+  const { image, ...rest } = parsedResult.data;
   try {
     const post = await prisma.petPost.create({
       data: {
