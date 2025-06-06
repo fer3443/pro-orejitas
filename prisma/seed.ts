@@ -2,6 +2,7 @@
 // import { hash } from "bcryptjs";
 
 import { PrismaClient } from "@prisma/client";
+import { hash } from "bcryptjs";
 
 
 const prisma = new PrismaClient();
@@ -11,8 +12,8 @@ async function main() {
   await prisma.petPost.deleteMany();
   await prisma.user.deleteMany();
 
-  // const password = await hash("Gordaluna123", 10);
-  const password = "Gordaluna123";
+  const password = await hash("Gordaluna123", 10);
+  // const password = "Gordaluna123";
   // Crear usuario de prueba
   const user = await prisma.user.create({
     data: {
