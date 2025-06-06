@@ -9,6 +9,8 @@ export interface PetPost {
   location:string;
   image: string[];
   status: PostStatus;
+  // createdAt: Date;
+  // updatedAt:Date;
   // user: {
   //   name:string;
   //   id:string;
