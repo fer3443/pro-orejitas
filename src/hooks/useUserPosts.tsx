@@ -1,6 +1,6 @@
 "use client";
 
-import { createUpdatePetPost, getUserPost } from "@/actions";
+import { createUpdatePetPost, getUserPost, updatePetPost } from "@/actions";
 import { PetPost, PetPostValues } from "@/interface";
 import { useUserPostStore } from "@/store";
 import React from "react";
@@ -31,19 +31,27 @@ export const useUserPosts = ({ page = 1 }: Props) => {
     getUserPosts();
   }, [page]);
 
-  const handleCreateUpdatePost = async (data: PetPostValues) => {
+  const handleCreatedPost = async (data: PetPostValues) => {
     try {
       setLoading(true);
       const resp = await createUpdatePetPost(data);
-      if (resp.success && resp.post) {
-        if (data.id) {
-          updatePost(resp.post);
-        } else {
-          addPost(resp.post as PetPost);
-        }
-      }
+      addPost(resp.post as PetPost);
+      return { message: resp.message };
     } catch (error) {
-      console.log("Error al actualizar/crear el post", error);
+      console.log("Error al crear el post", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleUpdatedPost = async (data: PetPostValues) => {
+    try {
+      setLoading(true);
+      const resp = await updatePetPost(data);
+      if(resp.success) updatePost(data);
+      return { message: resp.message };
+    } catch (error) {
+      console.log("Error al actualizar el post", error);
     } finally {
       setLoading(false);
     }
@@ -51,7 +59,8 @@ export const useUserPosts = ({ page = 1 }: Props) => {
 
   return {
     posts,
-    handleCreateUpdatePost,
+    handleCreatedPost,
+    handleUpdatedPost,
     pages,
     loading,
   };

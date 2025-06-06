@@ -1,11 +1,14 @@
 import { notFound } from "next/navigation";
 import { EditPetPost } from "../ui/EditPetPost";
+import { getPetPostId } from "@/actions";
+import { PetPost } from "@/interface";
 interface Props {
   params:Promise<{id:string}>
 }
 export default async function PetEditPage({params}:Props) {
   const {id} = await params;
-  if(!id){
+  const {data,success} = await getPetPostId(id)
+  if(!id || !success){
     notFound()
   }
   return (
@@ -14,7 +17,7 @@ export default async function PetEditPage({params}:Props) {
           <h1>Crear un post Page</h1>
         </div>
         <div className="col-span-full flex justify-center">
-          <EditPetPost id={id}/>
+          <EditPetPost data={data as PetPost}/>
         </div>
       </div>
   );
