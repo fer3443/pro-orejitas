@@ -8,7 +8,7 @@ interface Props {
 export default async function FeedPage({ searchParams }: Props) {
   const strPage = await searchParams;
   const page = strPage ? parseInt(strPage.page || "1") : 1;
-  const { data, totalPages } = await getPetPost({ page });
+  const { data, totalPages } = await getPetPost({ page, take:8 });
 
   return (
     <div>

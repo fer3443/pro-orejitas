@@ -1,4 +1,5 @@
-export { createUpdatePetPost } from './pets/create-update-pet-post'
+export { createUpdatePetPost } from './pets/create-update-pet-post';
+export { updatePetPost } from './pets/update-pet-post';
 export { getPetPostId } from './pets/get-petpost-id';
 export { getPetPost } from './pets/get-pet-post';
 export { getStatusById } from './pets/get-status-by-id';

@@ -18,8 +18,10 @@ import {
   Input,
 } from "@/components";
 import { sendPassResetEmail } from "@/actions/send-email-reset";
+import { useRouter } from "next/navigation";
 
 export const ForgotPasswordForm = () => {
+  const router = useRouter()
   const [sended, setSended] = React.useState<boolean>(false);
   const formSchema = z.object({
     email: z.string().email({ message: "Debe completar el campo" }),
@@ -37,6 +39,7 @@ export const ForgotPasswordForm = () => {
         if (res.success) {
           toast.success(res.message, { className: "text-green-500" });
           setSended(true);
+          router.push('/auth/forgot-password/sended-email')
         }else{
           toast.error(res.message)
         }

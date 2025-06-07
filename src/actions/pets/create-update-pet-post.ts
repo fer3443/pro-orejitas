@@ -11,7 +11,7 @@ interface PetPostResposne {
   success: boolean;
   message: string;
   status: number;
-  post?: PetPost
+  post?: PetPost;
 }
 
 interface TokenPayload {
@@ -25,12 +25,8 @@ export const createUpdatePetPost = async (
   values: PetPostValues
 ): Promise<PetPostResposne> => {
   const tokenData = await getUserToken();
-  if (!tokenData.success) {
-    return {
-      ...tokenData,
-      status: 401,
-    };
-  }
+  if (!tokenData.success)
+    return { success: false, message: tokenData.message, status: 401 };
   const user = verifyToken(tokenData.token as string) as TokenPayload;
 
   if (!user || !user.id) {
@@ -45,59 +41,34 @@ export const createUpdatePetPost = async (
       status: 400,
     };
   }
-  const { id, image, ...rest } = parsedResult.data;
+  const { image, ...rest } = parsedResult.data;
   try {
-    const post = await prisma.$transaction(async (tx) => {
-      //si hay id de post, actualizo
-      if (id) {
-        const updated = await prisma.petPost.update({
-          where: { id: id },
-          data: {
-            ...rest,
-            updatedAt: new Date(),
-          },
-        });
-
-        await tx.imagePets.deleteMany({
-          where: { petPostId: values.id },
-        });
-
-        await tx.imagePets.createMany({
-          data: image.map((url) => ({
-            url,
-            petPostId: values.id!,
-          })),
-        });
-        return {
-          success:true,
-          message:"Post actualizado",
-          status: 200,
-          updated
-        }
-      } else {
-        //si no creo
-        const created = await prisma.petPost.create({
-          data: {
-            ...rest,
-            userId: user.id,
-            image: {
-              create: image.map((url) => ({ url })),
-            },
-          },
-        });
-        
-        return {
-          success:true,
-          message:"Todo listo",
-          status: 200,
-          created
-        };
-      }
+    const post = await prisma.petPost.create({
+      data: {
+        ...rest,
+        userId: user.id,
+        image: {
+          create: image.map((url) => ({ url })),
+        },
+      },
     });
-
-    revalidatePath(`/petpost/${id}`);
-
-    return post;
+    if (!post) {
+      return {
+        success: false,
+        message: "No se pudo crear la publicación",
+        status: 400,
+      };
+    }
+    revalidatePath("/feed");
+    return {
+      success: true,
+      message: "Todo listo",
+      status: 200,
+      post: {
+        ...post,
+        image: image.map((img) => img),
+      } as PetPost,
+    };
   } catch (error) {
     console.log("Error inesperado al crear/actualizar publicación", error);
     return {

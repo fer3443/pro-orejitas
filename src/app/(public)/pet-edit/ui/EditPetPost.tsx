@@ -7,11 +7,10 @@ import React from "react";
 import { toast } from "sonner";
 
 interface Props {
-  id: string;
+  data: PetPost;
 }
-export const EditPetPost = ({ id }: Props) => {
-  const { handleCreateUpdatePost, posts } = useUserPosts({});
-  const data = posts.find((post) => post.id === id) ?? {} as PetPost
+export const EditPetPost = ({ data }: Props) => {
+  const { handleUpdatedPost } = useUserPosts({});
 
   return (
     <PetPostForm
@@ -21,9 +20,9 @@ export const EditPetPost = ({ id }: Props) => {
       }}
       isEditing
       onSubmit={async (values) => {
-        toast.promise(handleCreateUpdatePost(values), {
+        toast.promise(handleUpdatedPost(values), {
           loading: "Editando publicación...",
-          success: "Publicacion editada con éxito",
+          success: (resp) => resp?.message,
           error: (error) => {
             console.log(error);
             return "Error al editar la publicación";
