@@ -12,7 +12,9 @@ export const getPetPostId = async (id:string) => {
       include: {
         image: {
           select: {
-            url:true
+            id:true,
+            url:true,
+            publicId:true
           }
         },
         user: {
@@ -37,7 +39,7 @@ export const getPetPostId = async (id:string) => {
     status:200,
     data: {
       ...pet,
-      image: pet.image.map((img) => img.url)
+      image: pet.image.map((img) => img)
     }
   }
   } catch (error) {

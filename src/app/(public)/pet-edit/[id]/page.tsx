@@ -14,7 +14,7 @@ export default async function PetEditPage({params}:Props) {
   return (
   <div className="grid grid-cols-12 gap-6 my-6">
         <div className="col-span-full text-center">
-          <h1>Crear un post Page</h1>
+          <h1>Editar Post</h1>
         </div>
         <div className="col-span-full flex justify-center">
           <EditPetPost data={data as PetPost}/>

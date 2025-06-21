@@ -1,7 +1,7 @@
 "use client";
 
 import { createUpdatePetPost, getUserPost, updatePetPost } from "@/actions";
-import { PetPost, PetPostValues } from "@/interface";
+import { CreatePostValues, PetImages, PetPost, UpdatePostValues } from "@/interface";
 import { useUserPostStore } from "@/store";
 import React from "react";
 
@@ -31,10 +31,11 @@ export const useUserPosts = ({ page = 1 }: Props) => {
     getUserPosts();
   }, [page]);
 
-  const handleCreatedPost = async (data: PetPostValues) => {
+  const handleCreatedPost = async (data: CreatePostValues) => {
     try {
       setLoading(true);
       const resp = await createUpdatePetPost(data);
+      console.log(resp)
       addPost(resp.post as PetPost);
       return { message: resp.message };
     } catch (error) {
@@ -44,12 +45,21 @@ export const useUserPosts = ({ page = 1 }: Props) => {
     }
   };
 
-  const handleUpdatedPost = async (data: PetPostValues) => {
+  const handleUpdatedPost = async (data: UpdatePostValues, images:PetImages[]) => {
     try {
       setLoading(true);
       const resp = await updatePetPost(data);
-      if(resp.success) updatePost(data);
-      return { message: resp.message };
+      if(resp.success) {
+        const updatedData = {
+          ...data,
+          image: images
+        }
+        console.log("Desde handleUpdatePost", updatedData)
+        updatePost(updatedData)
+        return { message: resp.message };
+      }else{
+        return {message: resp.message, status: resp.status}
+      }
     } catch (error) {
       console.log("Error al actualizar el post", error);
     } finally {

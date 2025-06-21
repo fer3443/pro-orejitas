@@ -7,7 +7,7 @@ export interface PetPost {
   breed?: string;
   age?: string;
   location:string;
-  image: string[];
+  image: PetImages[];
   status: PostStatus;
   // createdAt: Date;
   // updatedAt:Date;
@@ -20,6 +20,7 @@ export interface PetPost {
 export interface PetImages {
   id:number;
   url:string;
+  publicId:string;
 }
 
 export type PostType = "LOST" |"FOUND" |"ADOPTION";

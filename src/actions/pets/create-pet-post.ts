@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 
-import { PetPost, petPostSchema, PetPostValues } from "@/interface";
+import { CreatePostSchema, CreatePostValues, PetPost } from "@/interface";
 import { verifyToken } from "@/lib/auth-token";
 import { getUserToken } from "../user/get-user-token";
 
@@ -21,8 +21,10 @@ interface TokenPayload {
   role: string;
 }
 
-export const createUpdatePetPost = async (
-  values: PetPostValues
+
+
+export const createPetPost = async (
+  values: CreatePostValues
 ): Promise<PetPostResposne> => {
   const tokenData = await getUserToken();
   if (!tokenData.success)
@@ -33,7 +35,7 @@ export const createUpdatePetPost = async (
     return { success: false, message: "Token inválido", status: 401 };
   }
 
-  const parsedResult = petPostSchema.safeParse(values);
+  const parsedResult = CreatePostSchema.safeParse(values);
   if (!parsedResult.success) {
     return {
       success: false,
@@ -48,7 +50,7 @@ export const createUpdatePetPost = async (
         ...rest,
         userId: user.id,
         image: {
-          create: image.map((url) => ({ url })),
+          create: image.map((img) => ({ url:img.url, publicId: img.publicId })),
         },
       },
     });
@@ -64,13 +66,9 @@ export const createUpdatePetPost = async (
       success: true,
       message: "Todo listo",
       status: 200,
-      post: {
-        ...post,
-        image: image.map((img) => img),
-      } as PetPost,
     };
   } catch (error) {
-    console.log("Error inesperado al crear/actualizar publicación", error);
+    console.log("Error inesperado al crear publicación", error);
     return {
       success: false,
       message: "No se pudo realizar la operación",
@@ -78,3 +76,4 @@ export const createUpdatePetPost = async (
     };
   }
 };
+

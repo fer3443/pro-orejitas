@@ -37,7 +37,7 @@ export const getUserPost = async ({
   try {
     const [posts, total] = await Promise.all([
       prisma.petPost.findMany({
-        where: { userId: data.id },
+        where: { userId: data.id, NOT: {status: "CLOSED"} },
         take,
         skip: (page - 1) * take,
         orderBy: {
@@ -48,11 +48,12 @@ export const getUserPost = async ({
             select: {
               id: true,
               url: true,
+              publicId:true
             },
           },
         },
       }),
-      prisma.petPost.count({ where: { userId: data.id } }),
+      prisma.petPost.count({ where: { userId: data.id, NOT: {status: "CLOSED"} } }),
     ]);
     const totalPages = Math.ceil(total / take);
     return {
@@ -63,7 +64,11 @@ export const getUserPost = async ({
           ...post,
           breed: post.breed || "",
           age: post.age || "",
-          image: post.image.map((img) => (img.id, img.url)),
+          image: post.image.map((img) => ({
+            url: img.url,
+            id:img.id,
+            publicId:img.publicId
+          })),
         }))
       },
       totalPages,

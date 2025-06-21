@@ -15,7 +15,7 @@ import "swiper/css/thumbs";
 import "./slideshow.css";
 
 interface Props {
-  image: string[];
+  image: {url:string, id:number}[];
   title: string;
   className?: string;
 }
@@ -40,7 +40,7 @@ export const SlideShow = ({ image, title, className }: Props) => {
         {image.map((img, index) => (
           <SwiperSlide key={index}>
             <Image
-              src={img}
+              src={img.url}
               alt={title}
               width={600}
               height={600}
@@ -59,9 +59,9 @@ export const SlideShow = ({ image, title, className }: Props) => {
         className="mySwiper"
       >
         {image.map((img) => (
-          <SwiperSlide key={img}>
+          <SwiperSlide key={img.id}>
             <Image
-              src={img}
+              src={img.url}
               alt={title}
               width={300}
               height={300}

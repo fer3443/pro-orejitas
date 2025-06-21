@@ -1,12 +1,13 @@
-export { createUpdatePetPost } from './pets/create-update-pet-post';
-export { updatePetPost } from './pets/update-pet-post';
-export { getPetPostId } from './pets/get-petpost-id';
+export { createPetPost as createUpdatePetPost } from './pets/create-pet-post';
 export { getPetPost } from './pets/get-pet-post';
+export { getPetPostId } from './pets/get-petpost-id';
 export { getStatusById } from './pets/get-status-by-id';
+export { softDeletePetPost } from './pets/softDeletePetPost';
+export { updatePetPost } from './pets/update-pet-post';
 
+export { getUserPost } from './user/get-user-post';
 export * from './user/get-user-status';
 export { getUserToken } from './user/get-user-token';
-export { getUserPost } from './user/get-user-post';
 
 export { loginUser } from './auth/login';
 export { logoutUser } from './auth/logout';

@@ -39,6 +39,7 @@ model PetPost {
   location    String
   image       ImagePets[]
   status      PostStatus  @default(ACTIVE)
+  deletedAt   DateTime?
   userId      String
   user        User        @relation(fields: [userId], references: [id])
   createdAt   DateTime    @default(now())
@@ -48,18 +49,18 @@ model PetPost {
 }
 
 model ImagePets {
-  id  Int    @id @default(autoincrement())
-  url String
-
+  id        Int     @id @default(autoincrement())
+  url       String
+  publicId  String
   petPost   PetPost @relation(fields: [petPostId], references: [id])
   petPostId String
 }
 
 model PasswordResetToken {
-  id        String @id @default(uuid())
-  tokenHash String @unique
+  id        String   @id @default(uuid())
+  tokenHash String   @unique
   userId    String
-  user      User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   expiresAt DateTime
   createdAt DateTime @default(now())
 }

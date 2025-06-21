@@ -34,6 +34,12 @@ export const getPetPost = async ({
         orderBy: {
           createdAt: "desc",
         },
+         where: {
+          type: typest,
+          NOT: {
+            status: "CLOSED"
+          }
+        },
         include: {
           user: {
             select: {
@@ -41,19 +47,11 @@ export const getPetPost = async ({
               id: true,
             },
           },
-          image: {
-            select: {
-              url: true,
-              id: true
-            },
-          },
-        },
-        where: {
-          type: typest
-        }
+          image: true
+        }       
       }),
       prisma.petPost.count({
-        where: {type: typest}
+        where: {type: typest, NOT: { status:"CLOSED"}}
       }),
     ]);
     const totalPage = Math.ceil(results[1] / take);
@@ -66,10 +64,13 @@ export const getPetPost = async ({
       currentPage: page,
       data: results[0].map((pet) => ({
         ...pet,
-        breed:pet.breed || "",
-        age: pet.age || "",
-        user: pet.user,
-        image: pet.image.map((img) => img.url),
+        breed: pet.breed ?? "",
+        age: pet.age ?? "",
+        image: pet.image.map((img) => ({
+          url:img.url,
+          publicId: img.publicId,
+          id: img.id
+        })),
       })),
       totalPages: totalPage,
     };

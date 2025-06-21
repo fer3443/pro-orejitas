@@ -12,7 +12,7 @@ import "swiper/css/pagination";
 import "./slideshow.css";
 
 interface Props {
-  image: string[];
+  image: {url:string, id:number}[];
   title: string;
   className?: string;
 }
@@ -34,7 +34,7 @@ export const SlideShowMobile = ({ image, title, className }: Props) => {
         {image.map((img, index) => (
           <SwiperSlide key={index}>
             <Image
-              src={img}
+              src={img.url}
               alt={title}
               width={500}
               height={500}

@@ -16,7 +16,7 @@ export const PostGridItem = ({pet}:Props) => {
   return (
     <div className='rounded-md overflow-hidden fade-in shadow-md'>
       <Image
-      src={pet.image[0]}
+      src={pet.image[0].url}
       alt={pet.title}
       className='w-full object-cover h-56'
       width={400}

@@ -1,9 +1,7 @@
-
 // import { hash } from "bcryptjs";
 
 import { PrismaClient } from "@prisma/client";
 import { hash } from "bcryptjs";
-
 
 const prisma = new PrismaClient();
 
@@ -42,10 +40,12 @@ async function main() {
         image: {
           create: [
             {
-              url: "https://placedog.net/500", // Imagen de prueba
+              url: "https://placedog.net/500",
+              publicId: "placedog.net/500", // Imagen de prueba
             },
             {
               url: "https://placedog.net/501",
+              publicId: "placedog.net/501",
             },
           ],
         },
@@ -64,7 +64,12 @@ async function main() {
         status: "ACTIVE",
         userId: user.id,
         image: {
-          create: [{ url: "https://placecats.com/millie/500/500" }],
+          create: [
+            {
+              url: "https://placecats.com/millie/500/500",
+              publicId: "placecats.com/millie/500/50",
+            },
+          ],
         },
       },
     }),
@@ -83,8 +88,8 @@ async function main() {
         userId: user.id,
         image: {
           create: [
-            { url: "https://placedog.net/503" },
-            { url: "https://placedog.net/504" },
+            { url: "https://placedog.net/503", publicId: "placedog.net/503" },
+            { url: "https://placedog.net/504", publicId: "placedog.net/5041" },
           ],
         },
       },
@@ -104,8 +109,14 @@ async function main() {
         userId: user.id,
         image: {
           create: [
-            { url: "https://placecats.com/millie_neo/500/500" },
-            { url: "https://placecats.com/neo_banana/500/500" },
+            {
+              url: "https://placecats.com/millie_neo/500/500",
+              publicId: "placecats.com/millie_neo/500/5001",
+            },
+            {
+              url: "https://placecats.com/neo_banana/500/500",
+              publicId: "placecats.com/neo_banana/500/5002",
+            },
           ],
         },
       },
@@ -137,6 +148,7 @@ async function main() {
         create: [
           {
             url: "https://placecats.com/bella/500/500",
+            publicId: "placecats.com/bella/500/5005",
           },
         ],
       },
