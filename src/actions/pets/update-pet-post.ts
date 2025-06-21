@@ -1,6 +1,6 @@
 "use server";
 
-import { CreatePostSchema, UpdatePostValues } from "@/interface";
+import { UpdatePostSchema, UpdatePostValues } from "@/interface";
 import { getUserToken } from "../user/get-user-token";
 import { verifyToken } from "@/lib/auth-token";
 import { prisma } from "@/lib/prisma";
@@ -14,11 +14,11 @@ export const updatePetPost = async (values:UpdatePostValues) => {
   const user = verifyToken(tokenData.token as string) as {id:string};
   if(!user || !user.id) return { success:false, message:"Token inválido", status: 401};
 
-  const parsedResults = CreatePostSchema.safeParse(values);
+  const parsedResults = UpdatePostSchema.safeParse(values);
   if(!parsedResults.success) return { success:false, message: parsedResults.error.issues[0].message, status: 400};
 
   try {
-    const {id, image, ...rest} = parsedResults.data;
+    const {id, ...rest} = parsedResults.data;
     if(!id)return {success:false, message:"No se encontró el post", status:404}
     const updatedPost = await prisma.petPost.update({
             where: {id},
