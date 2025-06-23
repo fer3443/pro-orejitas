@@ -5,6 +5,7 @@ import { PetPost } from "@/interface";
 import React from "react";
 import { toast } from "sonner";
 import { UpdatePostForm } from "./UpdatePostForm";
+import { useRouter } from "next/navigation";
 
 interface Props {
   data: PetPost;
@@ -12,6 +13,7 @@ interface Props {
 export const EditPetPost = ({ data }: Props) => {
   const { handleUpdatedPost } = useUserPosts({});
   const { image, ...rest} = data;
+  const router = useRouter()
 
   return (
     <UpdatePostForm
@@ -21,6 +23,7 @@ export const EditPetPost = ({ data }: Props) => {
         toast.promise(handleUpdatedPost(values, image), {
           loading: "Editando publicación...",
           success: (resp) => {
+            router.push('/profile')
             return resp?.message
           },
           error: (error) => {

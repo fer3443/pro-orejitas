@@ -29,6 +29,7 @@ export const updatePetPost = async (values:UpdatePostValues) => {
           })
       console.log("desde action", updatedPost)
       revalidatePath('/feed')
+      revalidatePath('/profile')
       return {success:true, message:'Publicación actualizada', status:200}
   } catch (error) {
     console.error("Error en updatePetPost", error);
