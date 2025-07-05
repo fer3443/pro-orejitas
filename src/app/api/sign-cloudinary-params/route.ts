@@ -4,11 +4,13 @@ import { NextResponse } from "next/server";
 export async function GET() {
   const timestamp = Math.round(new Date().getTime() / 1000);
   const folder = "orejitas";
+  const transformation = "f_auto,q_auto,w_800";
 
   const signature = cloudinary.utils.api_sign_request(
     {
       timestamp,
       folder,
+      transformation
     },
     process.env.CLOUDINARY_API_SECRET as string
   );
@@ -17,26 +19,6 @@ export async function GET() {
     timestamp,
     folder,
     signature,
+    transformation
   });
 }
-// import { NextResponse } from "next/server";
-// import crypto from "crypto";
-
-// // Este endpoint genera la firma segura para subir archivos a Cloudinary
-// export async function GET() {
-//   const timestamp = Math.round(new Date().getTime() / 1000);
-
-//   const folder = "orejitas"; // o lo que uses
-//   const paramsToSign = `folder=${folder}&timestamp=${timestamp}`;
-
-//   const signature = crypto
-//     .createHmac("sha1", process.env.CLOUDINARY_API_SECRET as string)
-//     .update(paramsToSign)
-//     .digest("hex");
-
-//   return NextResponse.json({
-//     signature,
-//     timestamp,
-//     folder,
-//   });
-// }

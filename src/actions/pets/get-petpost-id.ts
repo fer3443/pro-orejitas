@@ -19,7 +19,8 @@ export const getPetPostId = async (id:string) => {
         },
         user: {
           select: {
-            name:true
+            name:true,
+            id:true
           }
         }
       },

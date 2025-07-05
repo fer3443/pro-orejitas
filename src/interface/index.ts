@@ -5,3 +5,4 @@ export * from './update-post.schema';
 export * from './pet-post.schema';
 export * from './pet-post.interface';
 export * from './post-form-inputs.interface';
+export * from './user.interface';

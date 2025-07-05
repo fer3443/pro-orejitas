@@ -8,7 +8,7 @@ export const UserInitProvider = () => {
   const setUser = useUserStore(state => state.setUser);
 
   useEffect(() => {
-   getUserStatus().then((res) => setUser(res.isLogged))
+   getUserStatus().then((res) => setUser(res.isLogged, res.id))
   },[setUser]);
 
   return null

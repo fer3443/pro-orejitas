@@ -3,14 +3,19 @@ import { persist } from "zustand/middleware";
 
 interface UserState {
   isLoggedIn: boolean;
-
-  setUser: (isLogged:boolean) => void;
+  userId: string | null;
+  setUser: (isLogged:boolean, userId: string | null) => void;
+  logout: () => void;
 }
 
 const storeApi:StateCreator<UserState> = (set) => ({
   isLoggedIn: false,
-
-  setUser: (islogged:boolean) => set({isLoggedIn: islogged})
+  userId:null,
+  setUser: (islogged:boolean, userId:string | null) => set({isLoggedIn: islogged, userId: islogged ? userId : null}),
+  logout: () => set({
+    isLoggedIn: false,
+    userId:null
+  })
 })
 
 export const useUserStore = create<UserState>()(persist(storeApi,{name: "auth-orejitas-store"}))

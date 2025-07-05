@@ -1,11 +1,11 @@
 import { notFound } from "next/navigation";
-import { format } from "date-fns";
-import { es } from "date-fns/locale";
 
 import { getPetPostId } from "@/actions";
 import { SlideShow, SlideShowMobile, StatusBadge } from "@/components";
 import { titleFont } from "@/config/fonts";
 import { speciesLabel, typeLabel } from "@/constants/type-labels";
+import { formatDate } from "@/utils";
+import Link from "next/link";
 
 interface Props {
   params: Promise<{ id: string }>;
@@ -73,15 +73,15 @@ export default async function PetPostDetailPage({ params }: Props) {
             </div>
             <div>
               <span className="font-semibold text-foreground">Publicado:</span>{" "}
-              {format(new Date(data.createdAt), "dd 'de' MMMM yyyy", {
-                locale: es,
-              })}
+              {formatDate(data.createdAt)}
             </div>
             <div>
               <span className="font-semibold text-foreground">
                 Publicado por:
               </span>{" "}
+              <Link href={`/profile/${data.user.id}`} className="hover:text-blue-500 transition-all">
               {data.user.name}
+              </Link>
             </div>
           </div>
         </div>

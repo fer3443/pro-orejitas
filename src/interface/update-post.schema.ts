@@ -17,6 +17,7 @@ export const UpdatePostSchema = z.object({
     required_error: "Debes seleccionar un tipo de publicación",
   }),
   status: z.enum(["ACTIVE", "RESOLVED", "CLOSED"]),
+  createdAt: z.date()
 })
 
 export type UpdatePostValues = z.infer<typeof UpdatePostSchema>;

@@ -6,7 +6,7 @@ export const uploadImagesToCloudinary = async (files: File[]) => {
 
   try {
     const { data } = await axios.get("/api/sign-cloudinary-params");
-    const { timestamp, signature, folder } = data;
+    const { timestamp, signature, folder, transformation } = data;
     const uploads = files.map(async (file) => {
      const formData = new FormData();
       formData.append("file", file);
@@ -14,6 +14,7 @@ export const uploadImagesToCloudinary = async (files: File[]) => {
       formData.append("timestamp", String(timestamp));
       formData.append("signature", signature);
       formData.append("api_key", api_key);
+      formData.append("transformation", transformation);
 
       const uploadRes = await axios.post(
         `https://api.cloudinary.com/v1_1/${cloud_name}/image/upload`,

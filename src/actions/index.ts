@@ -8,6 +8,7 @@ export { updatePetPost } from './pets/update-pet-post';
 export { getUserPost } from './user/get-user-post';
 export * from './user/get-user-status';
 export { getUserToken } from './user/get-user-token';
+export { getUserById } from './user/get-user-by-id';
 
 export { loginUser } from './auth/login';
 export { logoutUser } from './auth/logout';

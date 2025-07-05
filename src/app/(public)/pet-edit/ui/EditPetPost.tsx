@@ -11,7 +11,9 @@ interface Props {
   data: PetPost;
 }
 export const EditPetPost = ({ data }: Props) => {
-  const { handleUpdatedPost } = useUserPosts({});
+  const { handleUpdatedPost } = useUserPosts({
+    userId:data.user?.id || ""
+  });
   const { image, ...rest} = data;
   const router = useRouter()
 

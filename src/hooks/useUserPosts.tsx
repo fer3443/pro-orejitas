@@ -7,9 +7,10 @@ import React from "react";
 
 interface Props {
   page?: number;
+  userId:string;
 }
 
-export const useUserPosts = ({ page = 1 }: Props) => {
+export const useUserPosts = ({ page = 1, userId }: Props) => {
   const setPost = useUserPostStore((state) => state.setPosts);
   const posts = useUserPostStore((state) => state.posts);
   const addPost = useUserPostStore((state) => state.addPost);
@@ -22,7 +23,7 @@ export const useUserPosts = ({ page = 1 }: Props) => {
   React.useEffect(() => {
     const getUserPosts = async () => {
       setLoading(true);
-      const { data, totalPages } = await getUserPost({ page });
+      const { data, totalPages } = await getUserPost({ page, userId });
       setPost(data?.posts as PetPost[]);
       setPages(totalPages);
       setLoading(false);
@@ -52,9 +53,9 @@ export const useUserPosts = ({ page = 1 }: Props) => {
       if(resp.success) {
         const updatedData = {
           ...data,
-          image: images
+          image: images,
+          user: {id: userId}
         }
-        console.log("Desde handleUpdatePost", updatedData)
         updatePost(updatedData)
         return { message: resp.message };
       }else{
